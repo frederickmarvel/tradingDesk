@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indodax Fast Trading</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-12">
+                <h2 class="text-center">HNST/IDR Fast Trading</h2>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <!-- Orderbook Section -->
+            <div class="col-md-6">
+                <div class="card bg-dark border-light">
+                    <div class="card-header border-light d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Order Book</h4>
+                        <div class="amount-selector d-flex align-items-center">
+                            <input type="number" class="form-control bg-dark text-light me-2" id="tradeAmount" placeholder="Amount">
+                            <select class="form-select bg-dark text-light" id="amountType">
+                                <option value="hnst">HNST</option>
+                                <option value="idr">IDR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="orderbook-header d-flex justify-content-between mb-2">
+                                    <span>Price</span>
+                                    <span>Amount</span>
+                                    <span>Trade</span>
+                                </div>
+                                <div id="asks" class="orderbook-list"></div>
+                                <div class="spread-indicator text-center my-2">
+                                    <span class="text-muted">Spread</span>
+                                </div>
+                                <div id="bids" class="orderbook-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fast Trading Section -->
+            <div class="col-md-6">
+                <div class="card bg-dark border-light mb-4">
+                    <div class="card-header border-light">
+                        <h4 class="mb-0">Open Orders</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="openOrders" class="open-orders">
+                            <!-- Open orders will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-dark border-light mb-4">
+                    <div class="card-header border-light">
+                        <h4 class="mb-0">Quick Trade</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <button class="btn btn-success w-100" id="quickBuyBtn">Quick Buy</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-danger w-100" id="quickSellBtn">Quick Sell</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label">Quick Trade Amount (IDR)</label>
+                            <div class="btn-group w-100" role="group">
+                                <button class="btn btn-outline-light quick-amount" data-amount="100000">100K</button>
+                                <button class="btn btn-outline-light quick-amount" data-amount="500000">500K</button>
+                                <button class="btn btn-outline-light quick-amount" data-amount="1000000">1M</button>
+                                <button class="btn btn-outline-light quick-amount" data-amount="5000000">5M</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-dark border-light">
+                    <div class="card-header border-light">
+                        <h4 class="mb-0">Advanced Trading</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="tradeForm">
+                            <div class="mb-3">
+                                <label class="form-label">Type</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="tradeType" id="advBuyBtn" value="buy" checked>
+                                    <label class="btn btn-outline-success" for="advBuyBtn">Buy</label>
+                                    <input type="radio" class="btn-check" name="tradeType" id="advSellBtn" value="sell">
+                                    <label class="btn btn-outline-danger" for="advSellBtn">Sell</label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="advPrice" class="form-label">Price (IDR)</label>
+                                <input type="number" class="form-control bg-dark text-light" id="advPrice" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="advAmount" class="form-label">Amount</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control bg-dark text-light" id="advAmount" step="0.00000001" required>
+                                    <select class="form-select bg-dark text-light" id="advAmountType">
+                                        <option value="hnst">HNST</option>
+                                        <option value="idr">IDR</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Total (IDR)</label>
+                                <input type="text" class="form-control bg-dark text-light" id="advTotal" readonly>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Place Order</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trade History Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card bg-dark border-light">
+                    <div class="card-header border-light">
+                        <h4 class="mb-0">Trade History</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="tradeHistory" class="trade-history">
+                            <!-- Trade history entries will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html> 

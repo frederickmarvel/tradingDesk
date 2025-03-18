@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  trading-desk:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      - GIN_MODE=release
+    restart: unless-stopped 
